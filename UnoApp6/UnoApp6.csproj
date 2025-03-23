@@ -1,0 +1,57 @@
+<Project Sdk="Uno.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net9.0-android;net9.0-browserwasm;net9.0-desktop</TargetFrameworks>
+<!--        <TargetFramework>net9.0</TargetFramework>-->
+        <OutputType>Exe</OutputType>
+        <UnoSingleProject>true</UnoSingleProject>
+
+        <!-- Display name -->
+        <ApplicationTitle>UnoApp6</ApplicationTitle>
+        <!-- App Identifier -->
+        <ApplicationId>com.companyname.UnoApp6</ApplicationId>
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
+        <!-- Package Publisher -->
+        <ApplicationPublisher>O=UnoApp6</ApplicationPublisher>
+        <!-- Package Description -->
+        <Description>UnoApp6 powered by Uno Platform.</Description>
+
+        <!--
+          UnoFeatures let's you quickly add and manage implicit package references based on the features you want to use.
+          https://aka.platform.uno/singleproject-features
+        -->
+        <UnoFeatures>
+            Material;
+            Dsp;
+            Hosting;
+            Toolkit;
+            Logging;
+            MVUX;
+            Configuration;
+            Http;
+            Serialization;
+            Localization;
+            Authentication;
+            Navigation;
+            ThemeService;
+        </UnoFeatures>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AndroidSdkDirectory>/var/home/jmc/.local/share/AndroidSdkNet</AndroidSdkDirectory>
+        <JavaSdkDirectory>/var/home/jmc/Games/jdk11</JavaSdkDirectory>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UnoLib1\UnoLib1.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>
