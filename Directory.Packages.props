@@ -12,5 +12,6 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.3" />
+    <PackageVersion Include="Uno.Extensions.Authentication.Oidc.WinUI" Version="5.2.7" />
   </ItemGroup>
 </Project>

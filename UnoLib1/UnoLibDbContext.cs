@@ -8,10 +8,12 @@ public class UnoLibDbContext(DbContextOptions<UnoLibDbContext> options) : DbCont
 {
     public DbSet<UserDao> Users { get; set; }
     public DbSet<TestDao> Tests { get; set; }
+    public DbSet<CredsDao> Creds { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new TestConfiguration());
+        modelBuilder.ApplyConfiguration(new CredsConfiguration());
     }
 }

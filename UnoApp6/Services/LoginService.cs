@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace UnoApp6.Services;
 
-public class JwtAuthenticationService(HttpClient httpClient, IConfiguration configuration) : IAuthenticationService
+public class JwtAuthenticationService(HttpClient httpClient, IConfiguration configuration, ILogger<JwtAuthenticationService> logger) : IAuthenticationService
 {
     private readonly HttpClient _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
     public string[] Providers { get; } = configuration.GetSection("Authentication:Providers").Get<string[]>() ?? [];
@@ -25,14 +25,14 @@ public class JwtAuthenticationService(HttpClient httpClient, IConfiguration conf
 
         try
         {
-            var request = new { login, password };
+            var request = new { username = login, password };
             var content = new StringContent(
                 JsonSerializer.Serialize(request),
                 Encoding.UTF8,
                 "application/json");
 
             var response = await _httpClient.PostAsync(
-                "login",
+                "identity/login",
                 content,
                 cancellationToken ?? CancellationToken.None);
 
@@ -42,14 +42,15 @@ public class JwtAuthenticationService(HttpClient httpClient, IConfiguration conf
             var responseContent = await response.Content.ReadAsStringAsync();
             var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);
 
-            if (loginResponse == null || string.IsNullOrEmpty(loginResponse.Token))
+            if (loginResponse == null || string.IsNullOrEmpty(loginResponse.token))
                 return false;
 
-            _token = loginResponse.Token;
+            _token = loginResponse.token;
             return true;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            logger.LogError(ex, "Login failed");
             return false;
         }
     }
@@ -74,10 +75,10 @@ public class JwtAuthenticationService(HttpClient httpClient, IConfiguration conf
             var responseContent = await response.Content.ReadAsStringAsync();
             var refreshResponse = JsonSerializer.Deserialize<LoginResponse>(responseContent);
 
-            if (refreshResponse == null || string.IsNullOrEmpty(refreshResponse.Token))
+            if (refreshResponse == null || string.IsNullOrEmpty(refreshResponse.token))
                 return false;
 
-            _token = refreshResponse.Token;
+            _token = refreshResponse.token;
             return true;
         }
         catch (Exception)
@@ -105,5 +106,5 @@ public class JwtAuthenticationService(HttpClient httpClient, IConfiguration conf
 
     public event EventHandler? LoggedOut;
 
-    private record LoginResponse(string Token);
+    private record LoginResponse(string token);
 }

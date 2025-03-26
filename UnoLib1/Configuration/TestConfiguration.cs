@@ -8,7 +8,7 @@ public class TestConfiguration : IEntityTypeConfiguration<TestDao>
 {
     public void Configure(EntityTypeBuilder<TestDao> builder)
     {
-        builder.ToTable("Users");
+        builder.ToTable("Test");
         builder.HasKey(u => u.Id);
         
         builder.Property(u => u.Id)

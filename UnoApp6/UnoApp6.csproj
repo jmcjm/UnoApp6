@@ -33,6 +33,7 @@
             Serialization;
             Localization;
             Authentication;
+            AuthenticationOidc;
             Navigation;
             ThemeService;
         </UnoFeatures>
@@ -52,6 +53,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Uno.Extensions.Authentication.Oidc.WinUI" />
     </ItemGroup>
 
 </Project>

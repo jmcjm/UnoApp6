@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Uno.Resizetizer;
@@ -79,21 +80,27 @@ public partial class App : Application
 #endif
                     .AddSingleton<IWeatherCache, WeatherCache>()
                     .AddRefitClient<IApiClient>(context))
+                // .UseAuthentication(u => u.AddOidc())
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<IAuthenticationService, JwtAuthenticationService>();
                     services.AddHttpClient<IAuthenticationService, JwtAuthenticationService>(client =>
                     {
-                        client.BaseAddress = new Uri(context.Configuration["ApiSettings:Url"] ?? throw new ArgumentNullException());
+                        client.BaseAddress = new Uri(context.Configuration["ApiSettings:Url"] ??
+                                                     throw new ArgumentNullException());
                     });
+                    var databasePath = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "MyData.db");
+                    
+                    Console.WriteLine($"Database path: {databasePath}");
                     
                     services.AddDbContext<UnoLibDbContext>(options =>
-                        options.UseSqlite("Data Source=mydatabase.db"));
-                    
+                        options.UseSqlite($"Data Source={databasePath}"));
+
                     services.AddScoped<IDatabaseInitializer, DatabaseInitializer>();
                     services.AddAutoMapper(typeof(MappingProfile));
                     services.AddScoped<IUserRepository, UserRepository>();
                     services.AddScoped<ITestRepository, TestRepository>();
+                    services.AddScoped<ICredsRepository, CredsRepository>();
                 })
                 .UseNavigation(ReactiveViewModelMappings.ViewModelMappings, RegisterRoutes)
             );
@@ -107,6 +114,10 @@ public partial class App : Application
         Host = await builder.NavigateAsync<Shell>
         (initialNavigate: async (services, navigator) =>
         {
+            // TODO: Na pewno da się to dać w lepszy miejscu
+            var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
+            await databaseInitializer.InitializeAsync();
+
             var auth = services.GetRequiredService<IAuthenticationService>();
             var authenticated = await auth.RefreshAsync();
             if (authenticated)
@@ -117,10 +128,6 @@ public partial class App : Application
             {
                 await navigator.NavigateViewModelAsync<LoginModel>(this, qualifier: Qualifiers.Nested);
             }
-            
-            // TODO: Na pewno da się to dać w lepszy miejscu
-            var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
-            await databaseInitializer.InitializeAsync();
         });
     }
 

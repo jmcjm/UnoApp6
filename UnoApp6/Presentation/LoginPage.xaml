@@ -6,11 +6,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:uen="using:Uno.Extensions.Navigation.UI"
       xmlns:utu="using:Uno.Toolkit.UI"
+      NavigationCacheMode="Disabled"
       xmlns:um="using:Uno.Material"
       mc:Ignorable="d"
-      NavigationCacheMode="Required"
+
       Background="{ThemeResource BackgroundBrush}"
       LostFocus="Page_LostFocus">
+
+    <!-- NavigationCacheMode="Required" -->
 
     <Grid utu:SafeArea.Insets="VisibleBounds">
         <Grid.RowDefinitions>

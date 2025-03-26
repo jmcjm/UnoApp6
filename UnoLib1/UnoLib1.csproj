@@ -42,6 +42,10 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
     <PropertyGroup>
         <AndroidSdkDirectory>/var/home/jmc/.local/share/AndroidSdkNet</AndroidSdkDirectory>
         <JavaSdkDirectory>/var/home/jmc/Games/jdk11</JavaSdkDirectory>

@@ -4,24 +4,24 @@ using UnoLib1.Dao;
 
 namespace UnoLib1.Configuration;
 
-public class UserConfiguration : IEntityTypeConfiguration<UserDao>
+public class CredsConfiguration : IEntityTypeConfiguration<CredsDao>
 {
-    public void Configure(EntityTypeBuilder<UserDao> builder)
+    public void Configure(EntityTypeBuilder<CredsDao> builder)
     {
-        builder.ToTable("User");
+        builder.ToTable("Creds");
         builder.HasKey(u => u.Id);
         
         builder.Property(u => u.Id)
             .HasColumnName("Id")
             .IsRequired();
         
-        builder.Property(u => u.Name)
-            .HasColumnName("Name")
+        builder.Property(u => u.Username)
+            .HasColumnName("EAN")
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(15);
         
-        builder.Property(u => u.Age)
-            .HasColumnName("Age")
+        builder.Property(u => u.Password)
+            .HasColumnName("Quantity")
             .IsRequired();
     }
 }

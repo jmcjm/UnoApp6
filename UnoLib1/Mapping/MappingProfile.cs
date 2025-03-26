@@ -10,5 +10,6 @@ public class MappingProfile : Profile
     {
         CreateMap<UserEntity, UserDao>().ReverseMap();
         CreateMap<TestEntity, TestDao>().ReverseMap();
+        CreateMap<CredsEntity, CredsDao>().ReverseMap();
     }
 }
